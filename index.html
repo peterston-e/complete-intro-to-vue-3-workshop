@@ -9,7 +9,18 @@
 	</head>
 	<body>
 		<h1>hello world</h1>
+
+		<br />
 		<div id="app">
+			<h2>Counter</h2>
+			<p>count: {{count}}</p>
+
+			<button @click="handleCount(10, $event)">Increment</button>
+			<div>
+				<label for="incrementAmount">increment by: </label>
+				<input type="number" v-model="incrementAmount" />
+			</div>
+			<hr />
 			<p v-if="message.length % 2 === 0">Even: {{ message.toUpperCase() }}</p>
 			<p v-else>Odd: {{ message }}</p>
 			<ul>
@@ -23,19 +34,45 @@
 					<p v-else>Man</p>
 				</li>
 			</ul>
+			<pre>{{newPerson}}</pre>
+
+			<label for="name">Name: </label>
+			<input id="name" type="text" v-model="newPerson.name" />
+
+			<label for="role">Role: </label>
+			<input id="role" type="text" v-model="newPerson.role" />
+
+			<label for="gender">Gender: </label>
+			<input id="gender" type="text" v-model="newPerson.sex" />
+
+			<label for="favourite">Favorite: </label>
+			<input
+				id="favourite"
+				type="checkbox"
+				v-model="newPerson.isFave"
+				@keyup.enter="addNewPerson"
+			/>
 		</div>
 		<script>
 			const { createApp } = Vue;
 			const app = createApp({
 				data() {
 					return {
+						count: 0,
+						incrementAmount: 1,
 						message: "Hello It works",
 						tvTitle: "Homeland TV Series",
+						newPerson: {
+							name: "",
+							role: "",
+							isFave: false,
+							sex: "",
+						},
 						cast: [
 							{
 								name: "Claire Danes",
 								role: "Carrie Mathison",
-								isFav: true,
+								isFave: true,
 								sex: "F",
 							},
 							{
@@ -60,8 +97,16 @@
 					};
 				},
 				methods: {
+					addNewPerson() {
+						this.cast.push(this.newPerson);
+					},
 					toggleFav(person) {
 						person.isFav = !person.isFav;
+					},
+					handleCount(amount, event) {
+						console.log(amount);
+						console.log(event);
+						this.count += this.incrementAmount;
 					},
 				},
 			});
