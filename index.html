@@ -13,7 +13,15 @@
 			<p v-if="message.length % 2 === 0">Even: {{ message.toUpperCase() }}</p>
 			<p v-else>Odd: {{ message }}</p>
 			<ul>
-				<li v-for="number in listOfNumbers">{{ number * Math.random() }}</li>
+				<li
+					v-for="person in cast"
+					:class="{fav: person.isFav}"
+					@click="toggleFav(person)"
+				>
+					<p>{{person.name}} as {{person.role}}</p>
+					<p v-if="person.sex === 'F'">Woman</p>
+					<p v-else>Man</p>
+				</li>
 			</ul>
 		</div>
 		<script>
@@ -22,11 +30,55 @@
 				data() {
 					return {
 						message: "Hello It works",
-						listOfNumbers: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+						tvTitle: "Homeland TV Series",
+						cast: [
+							{
+								name: "Claire Danes",
+								role: "Carrie Mathison",
+								isFav: true,
+								sex: "F",
+							},
+							{
+								name: "Damian Lewis",
+								role: "Nicholas Brody",
+								isFav: false,
+								sex: "M",
+							},
+							{
+								name: "Mandy Patinkin",
+								role: "Saul Berenson",
+								isFav: true,
+								sex: "M",
+							},
+							{
+								name: "Morena Baccarin",
+								role: "Jessica Brody",
+								isFav: false,
+								sex: "F",
+							},
+						],
 					};
+				},
+				methods: {
+					toggleFav(person) {
+						person.isFav = !person.isFav;
+					},
 				},
 			});
 			app.mount("#app");
 		</script>
+		<style>
+			li {
+				background-color: #ddd;
+				margin: 20px auto;
+				padding: 10px;
+				width: 100%;
+				text-align: center;
+				list-style: none;
+			}
+			.fav {
+				background-color: pink;
+			}
+		</style>
 	</body>
 </html>
